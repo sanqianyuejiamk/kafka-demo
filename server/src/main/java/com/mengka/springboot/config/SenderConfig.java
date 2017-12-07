@@ -35,6 +35,9 @@ public class SenderConfig {
      * 建议值：
      *  https://cwiki.apache.org/confluence/display/KAFKA/KIP-185%3A+Make+exactly+once+in+order+delivery+per+partition+the+default+producer+setting
      *
+     * 测试报告：
+     * https://cwiki.apache.org/confluence/display/KAFKA/An+analysis+of+the+impact+of+max.in.flight.requests.per.connection+and+acks+on+Producer+performance
+     *
      * @return
      */
     @Bean
