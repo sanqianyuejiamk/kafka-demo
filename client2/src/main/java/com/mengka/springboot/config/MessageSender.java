@@ -21,7 +21,7 @@ public class MessageSender {
     private KafkaTemplate<Integer, String> kafkaTemplate;
 
     /**
-     * 发送消息
+     *
      *
      * @param topic
      * @param message
@@ -50,11 +50,11 @@ public class MessageSender {
     }
 
     /**
-     * 发送消息
+     *
      *
      * @param topic
      * @param message
-     * @return 同步返回
+     * @return
      */
     public boolean syncSendMessage(final String topic, final String message) {
         boolean success = false;

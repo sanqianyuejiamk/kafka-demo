@@ -31,6 +31,12 @@ public class SenderConfig {
     @Value("${kafka.broker}")
     private String bootstrapServers;
 
+    /**
+     * å»ºè®®å€¼ï¼š
+     *  https://cwiki.apache.org/confluence/display/KAFKA/KIP-185%3A+Make+exactly+once+in+order+delivery+per+partition+the+default+producer+setting
+     *
+     * @return
+     */
     @Bean
     public Map producerConfigs() {
         Map props = new HashMap();
@@ -39,12 +45,62 @@ public class SenderConfig {
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, 5000);
 
-        //producer·ÖÇø»úÖÆ
+        /**
+         *  æ ¹æ®keyçš„è‡ªå®šä¹‰åˆ†åŒºæœºåˆ¶
+         */
         props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, SensorPartitioner.class.getCanonicalName());
         props.put("partitions.1", "USA");
         props.put("partitions.2", "India");
 
-        props.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 1);//ÏŞÖÆ¿Í»§¶ËÔÚµ¥¸öÁ¬½ÓÉÏÄÜ¹»·¢ËÍµÄÎ´ÏìÓ¦ÇëÇóµÄ¸öÊı¡£ÉèÖÃ´ËÖµÊÇ1±íÊ¾kafka brokerÔÚÏìÓ¦ÇëÇóÖ®Ç°client²»ÄÜÔÙÏòÍ¬Ò»¸öbroker·¢ËÍÇëÇó,±ÜÃâÏûÏ¢ÂÒĞò
+        /**
+         *  è®¾ç½®ä¸º1ï¼Œä¿è¯åœ¨åä¸€æ¡æ¶ˆæ¯å‘é€å‰ï¼Œå‰ä¸€æ¡çš„æ¶ˆæ¯çŠ¶æ€å·²ç»æ˜¯å¯çŸ¥çš„ï¼›
+         *
+         * https://community.hortonworks.com/articles/80813/kafka-best-practices-1.html
+         *
+         *  Max.in.flight.requests.per.connection > 1:
+         *  1)Gives better throughput;
+         *  2)May cause out of order delivery when retry occurs;
+         *  3)Excessive pipelining , drops throughput;
+         *
+         *  ã€å»ºè®®å€¼ï¼š2ã€‘
+         */
+        props.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 1);
+
+
+        /**
+         *  Why change acks from 1 to all?
+         *
+         * (æ¶ˆæ¯å‘é€æˆåŠŸï¼Œä½†æ˜¯kafkaé›†ç¾¤å¹¶æœªå¤åˆ¶æˆåŠŸï¼Œå­˜åœ¨ä¸ä¸€è‡´æƒ…å†µ)
+         *  With acks=1,
+         *  we only have an at most once delivery guarantee.
+         *  In particular, with acks=1, the broker could crash after acknowledging a message but before replicating it.
+         *
+         * ã€æ³¨ã€‘ï¼šå¯¹è¯·æ±‚å»¶è¿Ÿæœ‰è¾ƒæ˜æ˜¾çš„å½±å“ï¼Œçº¦2å€æ€§èƒ½å½±å“ã€‚
+         * There is a major 2x degradation in p95 latency between acks=1 and acks=all except for 64 byte messages.
+         *
+         * å‚è€ƒï¼š
+         * https://cwiki.apache.org/confluence/display/KAFKA/An+analysis+of+the+impact+of+max.in.flight.requests.per.connection+and+acks+on+Producer+performance
+         *
+         * (æ˜¯å¦ç­‰åˆ°followerså¤åˆ¶æ•°æ®æˆåŠŸï¼Œå†å“åº”è¯·æ±‚acknowledged)
+         *  With acks=all,
+         *  The performance analysis above shows that there is an impact to latency when moving from acks=1 to acks=all.
+         *  since the followers need to fetch the newly appended data before the request is acknowledged;
+         *  Regardless, we believe strong durability guarantees out of the box are worth the cost of increased latency.
+         *
+         *  ã€å»ºè®®å€¼ï¼šallã€‘
+         */
+        props.put(ProducerConfig.ACKS_CONFIG,"all");
+
+        /**
+         *  å‘é€å¤±è´¥é‡è¯•æ¬¡æ•°
+         *
+         * The retries config was defaulted to 0 to ensure that internal producer retries don't introduce duplicates.
+         * we should let the producer retry as much as possible since there is no correctness penalty for doing so.
+         *
+         * ã€å»ºè®®å€¼ï¼šInteger.MAX_VALUEã€‘
+         */
+        props.put(ProducerConfig.RETRIES_CONFIG,Integer.MAX_VALUE);
+
         log.info("senderConfig = " + JSON.toJSONString(props));
         return props;
     }
