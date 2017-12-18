@@ -5,6 +5,7 @@ import com.mengka.springboot.config.MessageSender;
 import com.mengka.springboot.util.TimeUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,20 +24,23 @@ public class KafkaMQController {
     @Autowired
     private MessageSender messageSender;
 
+    @Value("${kafka.topic}")
+    private String topic;
+
     @RequestMapping("/send")
     public String send(Map<String, Object> model) throws Exception {
-        String sensorAddr = "39000488";//传感器地址
+        String sensorAddr = "39000488";
         for (int i = 0; i < 10; i++) {
             String message = "Just for test[" + TimeUtil.toDate(new Date(), TimeUtil.FORMAT_YYYY_MM_DD_HH_MM_SS);
-            messageSender.sendMessage("testTopic", sensorAddr, message);
+            messageSender.sendMessage(topic, sensorAddr, message);
         }
 
         Thread.sleep(5000);
 
-        String sensorAddr2 = "39000487";//传感器地址
+        String sensorAddr2 = "39000487";
         for (int i = 0; i < 10; i++) {
             String message = "Just for test[" + TimeUtil.toDate(new Date(), TimeUtil.FORMAT_YYYY_MM_DD_HH_MM_SS);
-            messageSender.sendMessage("testTopic", sensorAddr2, message);
+            messageSender.sendMessage(topic, sensorAddr2, message);
         }
 
         JSONObject jsonObject = new JSONObject();

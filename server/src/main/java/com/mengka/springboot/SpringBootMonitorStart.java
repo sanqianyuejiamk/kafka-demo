@@ -21,7 +21,7 @@ import org.springframework.context.annotation.PropertySource;
 public class SpringBootMonitorStart {
 
     public static void main(String[] args) {
-        System.setProperty("logging.path","/Users/hyy044101331/logs/spring-boot2");
+//        System.setProperty("logging.path","/Users/hyy044101331/logs/spring-boot2");
 
         String userHome = System.getProperty("user.home");
         System.out.println("-------, user.home: "+userHome);
