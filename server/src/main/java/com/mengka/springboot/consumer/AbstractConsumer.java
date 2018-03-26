@@ -15,10 +15,10 @@ public abstract class AbstractConsumer extends Thread {
 
     @Override
     public void run() {
-        while(true){
-            log.info("-----consumer----- data = {}",TimeUtil.toDate(new Date(),TimeUtil.FORMAT_YYYY_MM_DD_HH_MM_SS));
-            consumer(TimeUtil.toDate(new Date(),TimeUtil.FORMAT_YYYY_MM_DD_HH_MM_SS));
-        }
+//        while(true){
+//            log.info("-----consumer----- data = {}",TimeUtil.toDate(new Date(),TimeUtil.FORMAT_YYYY_MM_DD_HH_MM_SS));
+//            consumer(TimeUtil.toDate(new Date(),TimeUtil.FORMAT_YYYY_MM_DD_HH_MM_SS));
+//        }
     }
 
     abstract void consumer(String data);

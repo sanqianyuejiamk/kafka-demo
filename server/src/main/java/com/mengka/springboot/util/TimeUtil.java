@@ -64,6 +64,13 @@ public class TimeUtil {
         return toDate(String.valueOf(intDate), sFmt);
     }
 
+    public static Date hourBefore(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(calendar.HOUR, -8);
+        return calendar.getTime();
+    }
+
     public static Date dayBefore(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

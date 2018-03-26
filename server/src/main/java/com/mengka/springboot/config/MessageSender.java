@@ -30,7 +30,7 @@ public class MessageSender {
      */
     public boolean sendMessage(final String topic, final String sensorAddr, final String message) {
         ListenableFuture<SendResult<String, String>> future = kafkaTemplate
-                .send(topic, sensorAddr, message);
+                .send(topic, message);
         future.addCallback(
                 new ListenableFutureCallback<SendResult<String, String>>() {
 
@@ -54,7 +54,7 @@ public class MessageSender {
      *
      * @param topic
      * @param message
-     * @return ͬ������
+     * @return
      */
     public boolean syncSendMessage(final String topic, final String message) {
         boolean success = false;

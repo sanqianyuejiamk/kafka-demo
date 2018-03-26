@@ -51,9 +51,9 @@ public class SenderConfig {
         /**
          *  根据key的自定义分区机制
          */
-        props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, SensorPartitioner.class.getCanonicalName());
-        props.put("partitions.1", "USA");
-        props.put("partitions.2", "India");
+//        props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, SensorPartitioner.class.getCanonicalName());
+//        props.put("partitions.1", "USA");
+//        props.put("partitions.2", "India");
 
         /**
          *  设置为1，保证在后一条消息发送前，前一条的消息状态已经是可知的；
@@ -67,7 +67,7 @@ public class SenderConfig {
          *
          *  【建议值：2】
          */
-        props.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 1);
+//        props.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 1);
 
 
         /**
