@@ -18,6 +18,9 @@
 ③ 分配的每个备份replica的id和broker的id保持一致；<br>
 ④ 对每个partition，会选择一个broker作为集群的leader；<br> 
 
+### kafka-manager控制台
+<img src="http://imglf5.nosdn0.126.net/img/dFJTKzkyUDNhSjg0ZDc5aWk5RHB5UGFpU1dYVEZJWlA2dHBrM2dPcDkydGxodEU5bk44QkJnPT0.png">
+
 ### 参考
 ```
 https://www.ibm.com/developerworks/cn/opensource/os-cn-kafka/index.html
