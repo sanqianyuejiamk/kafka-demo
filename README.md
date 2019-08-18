@@ -1,4 +1,4 @@
-# Apache Kafka 原理
+# Apache Kafka
 
 ### 基本角色
 1. Broker - Kafka集群包含一个或多个服务器，这种服务器被称为broker
