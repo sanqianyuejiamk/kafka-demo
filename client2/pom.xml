@@ -12,7 +12,7 @@
         <zkclient.version>0.8</zkclient.version>
         <zookeeper.version>3.3.3</zookeeper.version>
         <kafka.version>0.8.2.2</kafka.version>
-        <kafkaclient.version>0.10.0.0</kafkaclient.version>
+        <kafkaclient.version>0.10.2.2</kafkaclient.version>
         <lombok.version>1.16.4</lombok.version>
         <joda-time.version>2.3</joda-time.version>
         <guava.version>15.0</guava.version>
